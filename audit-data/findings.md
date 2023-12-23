@@ -1,4 +1,4 @@
-### [H-1] Storing password on-chain makes it visible to anyone irrespective to solidity access modifier.
+### [S-High1] Storing password on-chain makes it visible to anyone irrespective to solidity access modifier.
 
 **Description:** 
 Any one can access on-chain data even if its private , using the knowledge of storage slot . Thus storing 
@@ -18,7 +18,8 @@ Proof of code to access storage variable `s_password` which is private
 ***steps***
 1. Deploy the below script 
 
-```// SPDX-License-Identifier: UNLICENSED
+```solidity
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.18;
 
 import {Script, console2} from "forge-std/Script.sol";
@@ -36,7 +37,7 @@ contract DeployPasswordStore is Script {
 ```
 2. Starting a local node 
    
-   ```anvil```
+   ```make anvil```
 
 3. Deploy PasswordStore 
    
@@ -56,9 +57,18 @@ Thus proved !, we can access private s_password
 
 
 **Recommended Mitigation:**
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions.
+Since the password will be stored on-chain no matter what, so its better to save encrypted password on-chain 
+using another off-chain password that user needs to remember in other to decrypt password again . 
+
+
+
+### [S-High2] No Acesss Modifier , Allows non-owners to set Password
+
+**Description:** The `PasswordStore:: setPassword` function at line 31 , does not have access 
+modifier which allows only owner to set the password . So any user who is not owner can set Password.
+
+**Impact:** 
+
+**Proof of Concept:**
+
+**Recommended Mitigation:** 
